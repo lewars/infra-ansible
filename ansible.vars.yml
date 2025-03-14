@@ -1,0 +1,21 @@
+---
+hostname: penguin
+fedora_version: 41
+
+primary_user: slams
+password_change_days: 90
+
+rpm_fusion_free_repo_url: "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ fedora_version }}.noarch.rpm"
+rpm_fusion_nonfree_repo_url: "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ fedora_version }}.noarch.rpm"
+
+one_password_rpm_url: "https://downloads.1password.com/linux/rpm/stable/x86_64/1password-latest.rpm"
+
+gpu_model: "GeForce GTX 1650 Ti Mobile"
+
+firewall_default_zone: drop
+disable_ipv6: true
+
+backup_partitions:
+  - /
+  - /var
+  - /home

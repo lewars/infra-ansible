@@ -1,0 +1,13 @@
+---
+- name: Set hostname
+  hostname:
+    name: "{{ hostname }}"
+  register: hostname_set
+
+- name: Update /etc/hosts with new hostname
+  lineinfile:
+    path: /etc/hosts
+    regexp: '^127.0.1.1'
+    line: '127.0.1.1 {{ hostname }}'
+    state: present
+  when: hostname_set.changed

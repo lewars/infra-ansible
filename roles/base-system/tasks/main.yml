@@ -1,0 +1,30 @@
+---
+- name: Include hostname configuration tasks
+  import_tasks: hostname.yml
+
+- name: Include package installation tasks
+  import_tasks: packages.yml
+
+- name: Include repository configuration tasks
+  import_tasks: repositories.yml
+
+- name: Include COPR repository configuration tasks
+  import_tasks: copr.yml
+
+- name: Include services configuration tasks
+  import_tasks: services.yml
+
+- name: Include systemd configuration tasks
+  import_tasks: systemd.yml
+
+- name: Include time configuration tasks
+  import_tasks: time.yml
+
+- name: Include kernel configuration tasks
+  import_tasks: kernel.yml
+
+- name: Include storage configuration tasks
+  import_tasks: storage.yml
+
+- name: Include DNS configuration tasks
+  import_tasks: dns.yml

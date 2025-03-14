@@ -1,0 +1,11 @@
+---
+- name: Install required tools for COPR repositories
+  dnf:
+    name: dnf-plugins-core
+    state: present
+
+- name: Enable alternateved/keyd COPR repository
+  command: dnf copr enable -y alternateved/keyd
+  args:
+    creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:alternateved:keyd.repo
+  register: keyd_repo_enabled

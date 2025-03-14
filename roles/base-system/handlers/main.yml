@@ -1,0 +1,19 @@
+---
+- name: restart chronyd
+  systemd:
+    name: chronyd
+    state: restarted
+
+- name: update grub
+  command: grub2-mkconfig -o /boot/grub2/grub.cfg
+
+- name: restart systemd-resolved
+  systemd:
+    name: systemd-resolved
+    state: restarted
+
+- name: restart tmp mount
+  systemd:
+    name: tmp.mount
+    state: restarted
+    daemon_reload: yes

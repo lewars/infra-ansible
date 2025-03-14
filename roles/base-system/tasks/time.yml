@@ -1,0 +1,20 @@
+---
+- name: Install chrony
+  dnf:
+    name: chrony
+    state: present
+
+- name: Configure chronyd as NTP client only
+  template:
+    src: chrony.conf.j2
+    dest: /etc/chrony.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart chronyd
+
+- name: Enable and start chronyd service
+  systemd:
+    name: chronyd
+    state: started
+    enabled: yes

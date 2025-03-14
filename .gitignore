@@ -1,0 +1,19 @@
+# -*- mode: gitignore; -*-
+# General
+*~
+\#*\#
+*.elc
+auto-save-list
+.\#*
+*.bak
+*.gho
+*.ori
+*.orig
+*.tmp
+*-
+*.patch
+*.diff
+.idea
+
+# Files
+requirements.txt

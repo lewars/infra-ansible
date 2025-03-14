@@ -1,0 +1,49 @@
+---
+- name: Add security options to /home
+  mount:
+    path: /home
+    src: "{{ item.device }}"
+    fstype: "{{ item.fstype }}"
+    opts: "{{ item.options }},nodev,nosuid"
+    state: mounted
+  when: item.mountpoint == '/home'
+  loop: "{{ ansible_mounts }}"
+
+- name: Add security options to /tmp
+  mount:
+    path: /tmp
+    src: "{{ item.device }}"
+    fstype: "{{ item.fstype }}"
+    opts: "{{ item.options }},nodev,nosuid,noexec"
+    state: mounted
+  when: item.mountpoint == '/tmp'
+  loop: "{{ ansible_mounts }}"
+  ignore_errors: yes
+
+- name: Create /etc/systemd/system/tmp.mount.d directory
+  file:
+    path: /etc/systemd/system/tmp.mount.d
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+
+- name: Configure tmpfs options for /tmp if not a separate mount
+  template:
+    src: tmp-mount-options.conf.j2
+    dest: /etc/systemd/system/tmp.mount.d/options.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart tmp mount
+
+- name: Add security options to /var/tmp
+  mount:
+    path: /var/tmp
+    src: "{{ item.device }}"
+    fstype: "{{ item.fstype }}"
+    opts: "{{ item.options }},nodev,nosuid,noexec"
+    state: mounted
+  when: item.mountpoint == '/var/tmp'
+  loop: "{{ ansible_mounts }}"
+  ignore_errors: yes

@@ -1,0 +1,34 @@
+---
+# Main tasks for applications role
+
+- name: Install common applications
+  dnf:
+    name:
+      - aspell
+      - terminator
+      - borgbackup
+      - wireshark
+      - tcpdump
+      - qemu
+      - gh
+      - podman
+      - keyd
+    state: present
+
+- name: Enable and start keyd service
+  systemd:
+    name: keyd
+    state: started
+    enabled: yes
+
+- name: Include 1Password installation tasks
+  import_tasks: one_password.yml
+
+- name: Include Brave browser installation tasks
+  import_tasks: brave.yml
+
+- name: Include ProtonVPN installation tasks
+  import_tasks: proton_vpn.yml
+
+- name: Include ClamAV installation tasks
+  import_tasks: clamav.yml

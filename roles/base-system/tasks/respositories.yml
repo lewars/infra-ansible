@@ -1,0 +1,34 @@
+---
+- name: Check if RPM Fusion Free is installed
+  command: rpm -q rpmfusion-free-release
+  register: rpm_fusion_free_check
+  changed_when: false
+  failed_when: false
+
+- name: Install RPM Fusion Free repository
+  dnf:
+    name: "{{ rpm_fusion_free_repo_url }}"
+    state: present
+    disable_gpg_check: no
+  when: rpm_fusion_free_check.rc != 0
+
+- name: Check if RPM Fusion NonFree is installed
+  command: rpm -q rpmfusion-nonfree-release
+  register: rpm_fusion_nonfree_check
+  changed_when: false
+  failed_when: false
+
+- name: Install RPM Fusion NonFree repository
+  dnf:
+    name: "{{ rpm_fusion_nonfree_repo_url }}"
+    state: present
+    disable_gpg_check: no
+  when: rpm_fusion_nonfree_check.rc != 0
+
+- name: Configure DNF for faster downloads
+  template:
+    src: dnf.conf.j2
+    dest: /etc/dnf/dnf.conf
+    owner: root
+    group: root
+    mode: '0644'

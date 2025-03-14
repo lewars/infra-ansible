@@ -1,0 +1,16 @@
+---
+- name: Configure Fedora Workstation
+  hosts: workstation
+  become: true
+  vars_files:
+    - ansible.vars.yml
+
+  roles:
+    - base-system
+    - desktop-gnome
+    - security
+    - applications
+    - hardware
+    - users
+    - backups
+    - updates

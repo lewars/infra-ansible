@@ -1,0 +1,29 @@
+---
+- name: Disable mounting of cramfs and udf filesystems
+  lineinfile:
+    path: /etc/modprobe.d/blacklist.conf
+    line: "{{ item }}"
+    state: present
+    create: yes
+  with_items:
+    - "blacklist cramfs"
+    - "blacklist udf"
+
+- name: Add audit=1 to GRUB command line
+  lineinfile:
+    path: /etc/default/grub
+    regexp: '^GRUB_CMDLINE_LINUX="((?!audit=1).*)(?=")'
+    line: 'GRUB_CMDLINE_LINUX="\1 audit=1"'
+    backrefs: yes
+  register: grub_updated
+
+- name: Enable kernel parameter for logging Martian packets
+  sysctl:
+    name: net.ipv4.conf.all.log_martians
+    value: '1'
+    state: present
+    reload: yes
+
+- name: Update GRUB if configuration changed
+  command: grub2-mkconfig -o /boot/grub2/grub.cfg
+  when: grub_updated.changed
